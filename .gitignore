@@ -17,3 +17,6 @@ cabal.sandbox.config
 *.eventlog
 .stack-work/
 cabal.project.local
+frontEndSrc/node_modules/
+node_modules/
+static/*
