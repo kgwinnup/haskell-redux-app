@@ -18,5 +18,10 @@ cabal.sandbox.config
 .stack-work/
 cabal.project.local
 frontEndSrc/node_modules/
+frontEndSrc/*.woff2
+frontEndSrc/*.svg
+frontEndSrc/*.ttf
+frontEndSrc/*.eot
+frontEndSrc/*.woff
 node_modules/
 static/*
