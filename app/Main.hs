@@ -12,20 +12,16 @@ import Control.Monad.IO.Class
 import Web.Scotty.SignedCookies
 import Web.Cookie
 import Data.Text
+import Data.Text.Lazy (fromStrict)
+import Data.Monoid ((<>))
+import qualified Data.Text.Encoding as E
+import Network.HTTP.Types
 import Data.Aeson (toJSON, fromJSON)
 import Data.Aeson.TH
 import GHC.Generics
-import qualified Data.Text.Encoding as E
+import UserTypes
 
-
-data User = User { userId :: Integer
-                 , fullName :: Text } deriving (Show)
-$(deriveJSON defaultOptions ''User)
-
-data Login = Login { loginUserName :: Text 
-                   , loginPassword :: Text 
-                   , loginRemember :: Bool } deriving (Show)
-$(deriveJSON defaultOptions ''Login)
+secret = "secret"
 
 data Error = Error { errorMessage :: Text 
                    , errorType :: Text } deriving (Show)
@@ -49,7 +45,7 @@ login = do
     Just user -> do 
       let cookie = def { setCookieName = E.encodeUtf8 "userId", 
                          setCookieValue = E.encodeUtf8 ((pack . show) (userId user)) }
-      setSignedCookie "secret" cookie
+      setSignedCookie secret cookie
       json user
     Nothing -> json $ Error { errorType = "0", errorMessage = "yep" }
 
@@ -57,17 +53,26 @@ login = do
 -- end stubbed out functions
 --
 
+unauthorizedUser = do
+  status status501
+  text $ "Unauthorized User"
 
 -- | delete userId cookie to log user out
 logout = do
   deleteCookie "userId"
   redirect "/"
 
--- ! check if cookies are set before proceding to URI function and pass user data
+-- | check if cookies are set before proceding to URI function and pass user data
 beLoggedIn :: (User -> ActionM ()) -> ActionM ()
 beLoggedIn response = do
-  user <- jsonData :: ActionM User
-  response $ User { userId = 0, fullName = "kyle" }
+  userId <- getSignedCookie secret "userId"
+  case userId of
+    Just u -> response $ User { userId = ((read . show) u), fullName = "" }
+    Nothing -> deleteCookie "userId" >> unauthorizedUser
+
+memberPage :: User -> ActionM ()
+memberPage user = do
+  text $ "welcome " <> fromStrict (fullName user)
 
 main :: IO ()
 main = scotty 3000 $ do
@@ -76,5 +81,6 @@ main = scotty 3000 $ do
   get "/" $ file "static/index.html"
   post "/login" login
   get "/logout" logout
+  get "/secure" $ beLoggedIn memberPage
 
 

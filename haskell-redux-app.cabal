@@ -1,24 +1,34 @@
-name:                haskell-web-template
+name:                haskell-redux-app
 version:             0.1.0.0
 -- synopsis:
 -- description:
-homepage:            https://github.com/githubuser/haskell-web-template#readme
-license:             BSD3
+homepage:            https://github.com/kgwinnup/haskell-redux-app
+license:             BSD2
 license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2017 Author name here
+author:              Kyle Gwinnup
+maintainer:          kpgwinnup@gmail.com
+copyright:           2017 Kyle Gwinnup
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10
 
-executable haskell-web-template-exe
+library
+  hs-source-dirs:      lib
+  exposed-modules:     UserTypes
+  build-depends:       base
+                     , aeson
+                     , text
+  default-language:    Haskell2010
+
+executable haskell-redux-app
   hs-source-dirs:      app
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
+                     , haskell-redux-app
                      , signed-cookies
+                     , http-types
                      , scotty
                      , cookie
                      , text
@@ -29,7 +39,7 @@ executable haskell-web-template-exe
                      , aeson
   default-language:    Haskell2010
 
-test-suite haskell-web-template-test
+test-suite haskell-redux-app-test
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Spec.hs
@@ -39,4 +49,4 @@ test-suite haskell-web-template-test
 
 source-repository head
   type:     git
-  location: https://github.com/githubuser/haskell-web-template
+  location: https://github.com/kgwinnup/haskell-redux-app
