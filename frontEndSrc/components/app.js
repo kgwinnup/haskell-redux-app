@@ -5,7 +5,7 @@ import * as UserActions from '../actions/user';
 import { bindActionCreators } from 'redux';
 import { Button, Checkbox, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import Login from './login';
+import Main from './main';
 import Home from './home';
 import { GET_COOKIE } from '../middleware/http';
 
@@ -23,10 +23,10 @@ class App extends Component {
 
         var page;
         if (userId != null) {
-            page = <Home user={this.props.user}
+            page = <Main user={this.props.user}
                          userActions={this.props.userActions} />
         } else {
-            page = <Login onSubmit={login} />;
+            page = <Home login={this.props.userActions.login} />
         }
 
         return (page);

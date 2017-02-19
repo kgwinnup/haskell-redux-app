@@ -9,17 +9,12 @@ import * as UserActions from '../actions/user';
 export default class Home extends Component {
 
     static propTypes = {
-        login: PropTypes.func.isRequired
+        user: PropTypes.object.isRequired,
+        userActions: PropTypes.object.isRequired
     }
 
     constructor (props, context) {
         super(props, context);
-        this.login = this.login.bind(this);
-    }
-
-    login (e) {
-        e.preventDefault();
-        this.props.login(this.username.value, this.password.value, false);
     }
 
     render () {
@@ -44,25 +39,16 @@ export default class Home extends Component {
                         </div>
 
                         <div id="navbar" className="collapse navbar-collapse">
+                            <div className="navbar-right">
+                                <ul className="nav navbar-nav">
+                                    <li><a href="#" onClick={this.props.userActions.logout}>Log out</a></li>
+                                </ul>
+                            </div>
                             <ul className="nav navbar-nav">
                                 <li className="active"><a href="#">Home</a></li>
                                 <li><a href="#about">About</a></li>
                                 <li><a href="#contact">Contact</a></li>
                             </ul>
-
-                            <FormGroup controlId='loginForm' bsClass='navbar-form navbar-right'>
-                                <FormControl type="text"
-                                             inputRef={(ref) => { this.username = ref; }}
-                                             placeholder="Email address" />
-                                <FormControl type="password"
-                                             inputRef={(ref) => { this.password = ref; }}
-                                             placeholder="Email address" />
-                                <Button bsClass="btn btn-primary btn-primary" 
-                                        type="submit" 
-                                        onClick={this.login}>Sign in</Button>
-                            </FormGroup>
-
-
                         </div>
                     </div>
                 </nav>
