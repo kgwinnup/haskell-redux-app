@@ -35,8 +35,8 @@ $(deriveJSON defaultOptions ''Error)
 --
 loginUser :: Login -> Maybe User
 loginUser login = 
-  if (loginUserName login) == "kyle"
-  then Just $ User { userId = 1, fullName = "Kyle" }
+  if loginUserName login == "kyle"
+  then Just User { userId = 1, fullName = "Kyle" }
   else Nothing
 
 login = do
@@ -47,7 +47,7 @@ login = do
                          setCookieValue = E.encodeUtf8 ((pack . show) (userId user)) }
       setSignedCookie secret cookie
       json user
-    Nothing -> json $ Error { errorType = "0", errorMessage = "yep" }
+    Nothing -> json Error { errorType = "0", errorMessage = "yep" }
 
 --
 -- end stubbed out functions
@@ -55,7 +55,7 @@ login = do
 
 unauthorizedUser = do
   status status501
-  text $ "Unauthorized User"
+  text "Unauthorized User"
 
 -- | delete userId cookie to log user out
 logout = do
@@ -67,12 +67,11 @@ beLoggedIn :: (User -> ActionM ()) -> ActionM ()
 beLoggedIn response = do
   userId <- getSignedCookie secret "userId"
   case userId of
-    Just u -> response $ User { userId = ((read . show) u), fullName = "" }
+    Just u -> response User { userId = (read . show) u, fullName = "" }
     Nothing -> deleteCookie "userId" >> unauthorizedUser
 
 memberPage :: User -> ActionM ()
-memberPage user = do
-  text $ "welcome " <> fromStrict (fullName user)
+memberPage user = text $ "welcome " <> fromStrict (fullName user)
 
 main :: IO ()
 main = scotty 3000 $ do
