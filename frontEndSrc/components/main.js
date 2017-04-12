@@ -20,7 +20,7 @@ export default class Home extends Component {
     render () {
         return (
             <div>
-                <nav className="navbar navbar-inverse navbar-fixed-top">
+                <nav className="navbar navbar-fixed-top">
                     <div className="container">
 
                         <div className="navbar-header">

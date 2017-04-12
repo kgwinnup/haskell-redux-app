@@ -25,7 +25,7 @@ export default class Home extends Component {
     render () {
         return (
             <div>
-                <nav className="navbar navbar-inverse navbar-fixed-top">
+                <nav className="navbar navbar-fixed-top">
                     <div className="container">
 
                         <div className="navbar-header">
@@ -57,7 +57,7 @@ export default class Home extends Component {
                                 <FormControl type="password"
                                              inputRef={(ref) => { this.password = ref; }}
                                              placeholder="Email address" />
-                                <Button bsClass="btn btn-primary btn-primary" 
+                                <Button bsClass="btn" 
                                         type="submit" 
                                         onClick={this.login}>Sign in</Button>
                             </FormGroup>

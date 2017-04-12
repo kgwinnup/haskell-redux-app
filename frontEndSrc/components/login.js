@@ -17,7 +17,6 @@ export default class Login extends Component {
     }
 
     login (e) {
-        e.preventDefault();
         this.props.onSubmit(this.username.value, this.password.value, this.remember.checked);
     }
 
@@ -38,7 +37,7 @@ export default class Login extends Component {
                         Remember me
                     </Checkbox>
                     <Button bsClass="btn btn-lg btn-primary btn-block" 
-                            type="button" 
+                            type="submit" 
                             onClick={this.login}>Sign in</Button>
                 </FormGroup>
             </div>
