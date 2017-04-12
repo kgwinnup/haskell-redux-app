@@ -2,9 +2,7 @@
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE DeriveGeneric #-}
 
-module UserTypes ( User(User), userId, fullName
-                 , Login(Login), loginUserName, loginPassword, loginRemember
-                 ) where
+module UserTypes where
 
 import Data.Aeson (toJSON, fromJSON)
 import Data.Aeson.TH
