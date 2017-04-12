@@ -25,3 +25,4 @@ frontEndSrc/*.eot
 frontEndSrc/*.woff
 node_modules/
 static/*
+*.swp
