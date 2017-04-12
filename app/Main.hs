@@ -19,35 +19,30 @@ import Network.HTTP.Types
 import Data.Aeson (toJSON, fromJSON)
 import Data.Aeson.TH
 import GHC.Generics
-import UserTypes
+import qualified UserTypes as U
+import qualified GeneralTypes as G
 
 secret = "secret"
-
-data Error = Error { errorMessage :: Text 
-                   , errorType :: Text } deriving (Show)
-$(deriveJSON defaultOptions ''Error)
-
-
 
 --
 -- These next two functions will need to be replaced with database calls
 -- they are stubbed out here as a template
 --
-loginUser :: Login -> Maybe User
+loginUser :: U.Login -> Maybe U.User
 loginUser login = 
-  if loginUserName login == "kyle"
-  then Just User { userId = 1, fullName = "Kyle" }
+  if U.loginUserName login == "kyle"
+  then Just U.User { U.userId = 1, U.fullName = "Kyle" }
   else Nothing
 
 login = do
-  creds <- jsonData :: ActionM Login
-  case loginUser creds of
-    Just user -> do 
+  p <- jsonData :: ActionM U.Login
+  case loginUser p of
+    Just user -> do
       let cookie = def { setCookieName = E.encodeUtf8 "userId", 
-                         setCookieValue = E.encodeUtf8 ((pack . show) (userId user)) }
-      setSignedCookie secret cookie
+                         setCookieValue = E.encodeUtf8 ((pack . show) (U.userId user)) }
+      setSignedCookie secret cookie 
       json user
-    Nothing -> json Error { errorType = "0", errorMessage = "yep" }
+    Nothing -> json G.Error { G.errorType = "0", G.errorMessage = "yep" }
 
 --
 -- end stubbed out functions
@@ -63,15 +58,15 @@ logout = do
   redirect "/"
 
 -- | check if cookies are set before proceding to URI function and pass user data
-beLoggedIn :: (User -> ActionM ()) -> ActionM ()
+beLoggedIn :: (U.User -> ActionM ()) -> ActionM ()
 beLoggedIn response = do
   userId <- getSignedCookie secret "userId"
   case userId of
-    Just u -> response User { userId = (read . show) u, fullName = "" }
+    Just u -> response U.User { U.userId = (read . show) u, U.fullName = "" }
     Nothing -> deleteCookie "userId" >> unauthorizedUser
 
-memberPage :: User -> ActionM ()
-memberPage user = text $ "welcome " <> fromStrict (fullName user)
+memberPage :: U.User -> ActionM ()
+memberPage user = text $ "welcome " <> fromStrict (U.fullName user)
 
 main :: IO ()
 main = scotty 3000 $ do
