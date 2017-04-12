@@ -16,6 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      lib
   exposed-modules:     UserTypes
+                     , GeneralTypes
   build-depends:       base
                      , aeson
                      , text
