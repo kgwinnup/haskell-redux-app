@@ -28,8 +28,8 @@ secret = "secret"
 -- These next two functions will need to be replaced with database calls
 -- they are stubbed out here as a template
 --
-loginUser :: U.Login -> Maybe U.User
-loginUser login =
+verifyUser :: U.Login -> Maybe U.User
+verifyUser login =
   if U.loginUserName login == "kyle"
   then Just U.User { U.userId = 1, U.fullName = "Kyle" }
   else Nothing
@@ -39,7 +39,7 @@ loginUser login =
 login :: ActionM ()
 login = do
   p <- jsonData :: ActionM U.Login
-  case loginUser p of
+  case verifyUser p of
     Just user -> do
       let cookie = def { setCookieName = E.encodeUtf8 "userId",
                          setCookieValue = E.encodeUtf8 ((pack . show) (U.userId user)) }
