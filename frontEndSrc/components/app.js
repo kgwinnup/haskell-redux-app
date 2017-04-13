@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as UserActions from '../actions/user';
+import * as RouteActions from '../actions/route';
 import { bindActionCreators } from 'redux';
 import ReactDOM from 'react-dom';
 import Navigation from './navigation';
@@ -16,7 +17,8 @@ class App extends Component {
 
         return(
           <div>
-            <Navigation addr={this.props.addr} />
+            <Navigation userActions={this.props.userActions} 
+                        routeActions={this.props.routeActions} />
           </div>
         );
     }
@@ -38,6 +40,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
     return {
         userActions: bindActionCreators(UserActions, dispatch),
+        routeActions: bindActionCreators(RouteActions, dispatch)
     }
 };
 

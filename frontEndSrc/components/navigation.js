@@ -2,9 +2,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import { browserHistory } from 'react-router';
 
 export default class Navigation extends Component {
+    
+    constructor(props) {
+        super(props);
+    }
+
     render () {
         return (
           <div>
@@ -22,7 +26,7 @@ export default class Navigation extends Component {
                 </div>
                 <div className="right item">
                   <Button.Group size="tiny">
-                    <Button>Log In</Button>
+                    <Button onClick={() => this.props.routeActions.setPath("/login")}>Log In</Button>
                     <Button.Or />
                     <Button>Sign Up</Button>
                   </Button.Group>
@@ -36,5 +40,6 @@ export default class Navigation extends Component {
 };
 
 Navigation.propTypes = {
-  addr: PropTypes.object.isRequired
+    userActions: PropTypes.object.isRequired,
+    routeActions: PropTypes.object.isRequired
 }

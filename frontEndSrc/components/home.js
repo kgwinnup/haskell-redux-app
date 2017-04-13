@@ -15,10 +15,6 @@ export default class Home extends Component {
         this.login = this.login.bind(this);
     }
 
-    login (e) {
-        this.props.login(this.username.value, this.password.value, false);
-    }
-
     render () {
         return (
           <div>

@@ -34,6 +34,9 @@ loginUser login =
   then Just U.User { U.userId = 1, U.fullName = "Kyle" }
   else Nothing
 
+-- This is the main function call for the login route
+-- Get the username/password from POST request and set the cookies if valid
+login :: ActionM ()
 login = do
   p <- jsonData :: ActionM U.Login
   case loginUser p of
@@ -48,11 +51,13 @@ login = do
 -- end stubbed out functions
 --
 
+unauthorizedUser :: ActionM ()
 unauthorizedUser = do
   status status501
   text "Unauthorized User"
 
 -- | delete userId cookie to log user out
+logout :: ActionM ()
 logout = do
   deleteCookie "userId"
   redirect "/"
