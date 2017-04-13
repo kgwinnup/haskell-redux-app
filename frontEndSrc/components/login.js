@@ -14,18 +14,34 @@ class Login extends Component {
     constructor (props) {
         super(props);
         this.login = this.login.bind(this);
+        this.updateState = this.updateState.bind(this);
+        this.negateState = this.negateState.bind(this);
+
+        this.state = {
+            username: "",
+            password: "",
+            remember: false
+        }
     }
 
     login (e) {
-        this.props.userActions.onSubmit(this.username.value, this.password.value, this.remember.checked);
+        this.props.userActions.login(this.state.username, this.state.password, this.state.remember);
+    }
+
+    updateState (key, val) {
+        this.state[key] = val;
+        this.setState(this.state);
+    }
+
+    negateState (key) {
+        this.state[key] = !this.state.key;
+        this.setState(this.state);
     }
 
     render () {
       
-      const styles = {"max-width": "450px"};
-
         return (
-          <div className="ui middle aligned center aligned grid" style={styles} >
+          <div className="ui middle aligned center aligned grid">
             <div className="column">
 
               <h2 className="ui teal image header">
@@ -35,8 +51,11 @@ class Login extends Component {
               </h2>
 
               <Form>
-                <Form.Input onChange={e => console.log(e.target.value)} label='Username' type='username' />
-                <Form.Input onChange={e => console.log(e.target.value)} label='Password' type='Password' />
+                <Form.Input onChange={e => this.updateState("username", e.target.value)} label='Username' type='username' />
+                <Form.Input onChange={e => this.updateState("password", e.target.value)} label='Password' type='Password' />
+                <Form.Field onChange={e => this.updateState("remember", e.target.checked)}>
+                    <Checkbox label="Remember me" onChange={e => this.negateState("remember")} />
+                </Form.Field>
                 <Form.Button onClick={this.login}>Login</Form.Button>
               </Form>
 

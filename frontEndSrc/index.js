@@ -47,5 +47,5 @@ render(
         </div>
       </ConnectedRouter>
     </Provider>,
-    document.getElementById('mount')
+    document.body
 );
