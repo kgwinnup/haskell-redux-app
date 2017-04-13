@@ -1,32 +1,35 @@
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Checkbox } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as UserActions from '../actions/user';
+import { Form } from 'semantic-ui-react';
 
 import { GET_COOKIE } from '../middleware/http';
 
-export default class Login extends Component {
+class Login extends Component {
 
-    static propTypes = {
-        onSubmit: PropTypes.func.isRequired
-    }
-
-    constructor (props, context) {
-        super(props, context);
+    constructor (props) {
+        super(props);
         this.login = this.login.bind(this);
     }
 
     login (e) {
-        this.props.onSubmit(this.username.value, this.password.value, this.remember.checked);
+        this.props.userActions.onSubmit(this.username.value, this.password.value, this.remember.checked);
     }
 
     render () {
-        return (
-          <div class="ui middle aligned center aligned grid">
-            <div class="column">
+      
+      const styles = {"max-width": "450px"};
 
-              <h2 class="ui teal image header">
-                <img src="assets/images/logo.png" class="image" />
-                <div class="content">
+        return (
+          <div className="ui middle aligned center aligned grid" style={styles} >
+            <div className="column">
+
+              <h2 className="ui teal image header">
+                <div className="content">
                   Log-in to your account
                 </div>
               </h2>
@@ -37,7 +40,7 @@ export default class Login extends Component {
                 <Form.Button onClick={this.login}>Login</Form.Button>
               </Form>
 
-              <div class="ui message">
+              <div className="ui message">
                 New to us? <a href="#">Sign Up</a>
               </div>
             </div>
@@ -46,3 +49,25 @@ export default class Login extends Component {
         );
     }
 };
+
+Login.propTypes = {
+  userActions: PropTypes.object.isRequired
+}
+
+function mapStateToProps (state) {
+    return {
+        user: state.user,
+        router: state.router
+    };
+};
+
+function mapDispatchToProps (dispatch) {
+    return {
+        userActions: bindActionCreators(UserActions, dispatch),
+    }
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login);

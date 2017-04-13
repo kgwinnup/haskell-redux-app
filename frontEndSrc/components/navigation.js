@@ -1,15 +1,10 @@
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'semantic-ui-react';
+import { browserHistory } from 'react-router';
 
 export default class Navigation extends Component {
-
-    static propTypes = {
-    }
-
-    constructor (props, context) {
-        super(props, context);
-    }
-
     render () {
         return (
           <div>
@@ -25,6 +20,13 @@ export default class Navigation extends Component {
                     <a className="item" href="/secure">Secure 2</a>
                   </div>
                 </div>
+                <div className="right item">
+                  <Button.Group size="tiny">
+                    <Button>Log In</Button>
+                    <Button.Or />
+                    <Button>Sign Up</Button>
+                  </Button.Group>
+                </div>
               </div>
             </div>
 
@@ -32,3 +34,7 @@ export default class Navigation extends Component {
         );
     }
 };
+
+Navigation.propTypes = {
+  addr: PropTypes.object.isRequired
+}

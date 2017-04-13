@@ -29,7 +29,7 @@ secret = "secret"
 -- they are stubbed out here as a template
 --
 loginUser :: U.Login -> Maybe U.User
-loginUser login = 
+loginUser login =
   if U.loginUserName login == "kyle"
   then Just U.User { U.userId = 1, U.fullName = "Kyle" }
   else Nothing
@@ -38,9 +38,9 @@ login = do
   p <- jsonData :: ActionM U.Login
   case loginUser p of
     Just user -> do
-      let cookie = def { setCookieName = E.encodeUtf8 "userId", 
+      let cookie = def { setCookieName = E.encodeUtf8 "userId",
                          setCookieValue = E.encodeUtf8 ((pack . show) (U.userId user)) }
-      setSignedCookie secret cookie 
+      setSignedCookie secret cookie
       json user
     Nothing -> json G.Error { G.errorType = "0", G.errorMessage = "yep" }
 
@@ -73,8 +73,7 @@ main = scotty 3000 $ do
   middleware logStdoutDev
   middleware $ staticPolicy (noDots >-> addBase "static")
   get "/" $ file "static/index.html"
+  get "/login" $ file "static/index.html"
   post "/login" login
   get "/logout" logout
   get "/secure" $ beLoggedIn memberPage
-
-
