@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React, { Component, PropTypes } from 'react';
 import * as UserActions from '../actions/user';
 import { bindActionCreators } from 'redux';
-import { Button, Checkbox, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
 import Main from './main';
 import Home from './home';
@@ -49,5 +48,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(App);
-
-

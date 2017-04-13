@@ -13,6 +13,7 @@ module.exports = {
                 query: { presets: ["es2015", "react", "stage-2"] }
             },
             { test: /\.scss$/,      loaders: ["style-loader", "css-loader", "sass-loader"] },
+            { test: /\.less$/,      loaders: ["style-loader", "css-loader", "less-loader"] },
             { test: /\.woff$/,      loader: "url-loader?limit=10000&minetype=application/font-woff" },
             { test: /\.woff2$/,     loader: "url-loader?limit=10000&minetype=application/font-woff" },
             { test: /\.ttf$/,       loader: "file-loader" },

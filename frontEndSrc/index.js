@@ -10,7 +10,7 @@ import { setFromCookie } from './actions/user';
 // import reducers
 import user from './reducers/user';
 
-require('./stylesheets/custom.scss');
+require('./stylesheets/semantic.less');
 require('./index.html');
 
 const store = createStore(

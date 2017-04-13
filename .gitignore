@@ -23,6 +23,7 @@ frontEndSrc/*.svg
 frontEndSrc/*.ttf
 frontEndSrc/*.eot
 frontEndSrc/*.woff
+frontEndSrc/*.png
 node_modules/
 static/*
 *.swp
