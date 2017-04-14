@@ -77,9 +77,12 @@ main :: IO ()
 main = scotty 3000 $ do
   middleware logStdoutDev
   middleware $ staticPolicy (noDots >-> addBase "static")
-  get "/" $ file "static/index.html"
-  get "/login" $ file "static/index.html"
-  get "/home" $ file "static/index.html"
-  post "/login" login
-  get "/logout" logout
-  get "/secure" $ beLoggedIn memberPage
+  get   "/"       $ file "static/index.html"
+  get   "/login"  $ file "static/index.html"
+  get   "/home"   $ file "static/index.html"
+  post  "/login"  $ login
+  get   "/logout" $ logout
+  get   "/secure" $ beLoggedIn memberPage
+
+
+
