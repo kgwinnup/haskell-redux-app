@@ -5,6 +5,7 @@ import { Button, Checkbox } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as UserActions from '../actions/user';
+import * as RouteActions from '../actions/route';
 import { Form } from 'semantic-ui-react';
 
 import { GET_COOKIE } from '../middleware/http';
@@ -24,7 +25,14 @@ class Login extends Component {
         }
     }
 
+    componentDidUpdate(props, state) {
+        if (this.props.user.userId != null ) {
+            this.props.routeActions.setPath("/home");
+        }
+    }
+
     login (e) {
+        e.preventDefault();
         this.props.userActions.login(this.state.username, this.state.password, this.state.remember);
     }
 
@@ -83,6 +91,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
     return {
         userActions: bindActionCreators(UserActions, dispatch),
+        routeActions: bindActionCreators(RouteActions, dispatch)
     }
 };
 

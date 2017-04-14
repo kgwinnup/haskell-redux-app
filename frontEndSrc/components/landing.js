@@ -1,31 +1,43 @@
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Form, Button, Checkbox } from 'semantic-ui-react';
+import ReactDOM from 'react-dom';
 import * as UserActions from '../actions/user';
 import * as RouteActions from '../actions/route';
-import { bindActionCreators } from 'redux';
-import ReactDOM from 'react-dom';
 import Navigation from './navigation';
-import { GET_COOKIE } from '../middleware/http';
 
-class App extends Component {
+class Landing extends Component {
+
+    constructor (props) {
+        super(props);
+    }
+
     render () {
-        // get userId from state or from cookie
-        const { userId } = this.props.user;
-        const { login } = this.props.userActions;
-
-        return(
+        return (
           <div>
             <Navigation user={this.props.user}
                         userActions={this.props.userActions} 
                         routeActions={this.props.routeActions} />
+             
+            <div className="ui text container">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+              <h2>Super awesome haskell/reactjs/redux template with authentication</h2>
+            </div>
           </div>
         );
     }
 };
 
-App.propTypes = {
+Landing.propTypes = {
   user: PropTypes.object.isRequired,
   userActions: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired
@@ -48,4 +60,7 @@ function mapDispatchToProps (dispatch) {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(App);
+)(Landing);
+
+
+
