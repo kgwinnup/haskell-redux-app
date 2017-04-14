@@ -3,6 +3,8 @@
 
 This is a template web app project which utlizies some cool technologies, haskell and scotty for the backend and reactjs and redux on the front end. 
 
+This project makes use my [Signed-Cookies](https://github.com/kgwinnup/signed-cookies) for Scotty project
+
 # Building requirements
 
 This project requirest stack and yarn.
