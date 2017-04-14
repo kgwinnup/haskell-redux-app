@@ -17,11 +17,11 @@ The backend utilizes `stack` and can be built with `stack build`. I use [stack-r
 
 # Screenshots
 
-[landing page](https://github.com/kgwinnup/haskell-redux-app/blob/master/landing.png)
+![landing page](https://github.com/kgwinnup/haskell-redux-app/blob/master/landing.png)
 
-[login page](https://github.com/kgwinnup/haskell-redux-app/blob/master/login.png)
+![login page](https://github.com/kgwinnup/haskell-redux-app/blob/master/login.png)
 
-[logged in page](https://github.com/kgwinnup/haskell-redux-app/blob/master/loggedin.png)
+![logged in page](https://github.com/kgwinnup/haskell-redux-app/blob/master/loggedin.png)
 
 
 
