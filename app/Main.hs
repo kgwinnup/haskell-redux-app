@@ -30,8 +30,8 @@ secret = "secret"
 --
 verifyUser :: U.Login -> Maybe U.User
 verifyUser login =
-  if U.loginUserName login == "kyle"
-  then Just U.User { U.userId = 1, U.fullName = "Kyle" }
+  if U.loginUserName login == "user"
+  then Just U.User { U.userId = 1, U.fullName = "User" }
   else Nothing
 
 -- This is the main function call for the login route
