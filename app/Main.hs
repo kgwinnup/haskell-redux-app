@@ -28,19 +28,22 @@ secret = "secret"
 -- These next two functions will need to be replaced with database calls
 -- they are stubbed out here as a template
 --
-loginUser :: U.Login -> Maybe U.User
-loginUser login = 
+verifyUser :: U.Login -> Maybe U.User
+verifyUser login =
   if U.loginUserName login == "kyle"
   then Just U.User { U.userId = 1, U.fullName = "Kyle" }
   else Nothing
 
+-- This is the main function call for the login route
+-- Get the username/password from POST request and set the cookies if valid
+login :: ActionM ()
 login = do
   p <- jsonData :: ActionM U.Login
-  case loginUser p of
+  case verifyUser p of
     Just user -> do
-      let cookie = def { setCookieName = E.encodeUtf8 "userId", 
+      let cookie = def { setCookieName = E.encodeUtf8 "userId",
                          setCookieValue = E.encodeUtf8 ((pack . show) (U.userId user)) }
-      setSignedCookie secret cookie 
+      setSignedCookie secret cookie
       json user
     Nothing -> json G.Error { G.errorType = "0", G.errorMessage = "yep" }
 
@@ -48,11 +51,13 @@ login = do
 -- end stubbed out functions
 --
 
+unauthorizedUser :: ActionM ()
 unauthorizedUser = do
   status status501
   text "Unauthorized User"
 
 -- | delete userId cookie to log user out
+logout :: ActionM ()
 logout = do
   deleteCookie "userId"
   redirect "/"
@@ -72,9 +77,12 @@ main :: IO ()
 main = scotty 3000 $ do
   middleware logStdoutDev
   middleware $ staticPolicy (noDots >-> addBase "static")
-  get "/" $ file "static/index.html"
-  post "/login" login
-  get "/logout" logout
-  get "/secure" $ beLoggedIn memberPage
+  get   "/"       $ file "static/index.html"
+  get   "/login"  $ file "static/index.html"
+  get   "/home"   $ file "static/index.html"
+  post  "/login"  $ login
+  get   "/logout" $ logout
+  get   "/secure" $ beLoggedIn memberPage
+
 
 

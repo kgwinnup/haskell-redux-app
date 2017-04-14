@@ -1,47 +1,47 @@
 
 import { connect } from 'react-redux';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import * as UserActions from '../actions/user';
+import * as RouteActions from '../actions/route';
 import { bindActionCreators } from 'redux';
-import { Button, Checkbox, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import ReactDOM from 'react-dom';
-import Main from './main';
-import Home from './home';
+import Navigation from './navigation';
 import { GET_COOKIE } from '../middleware/http';
 
 class App extends Component {
-
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        userActions: PropTypes.object.isRequired
-    }
-
     render () {
         // get userId from state or from cookie
         const { userId } = this.props.user;
         const { login } = this.props.userActions;
 
-        var page;
-        if (userId != null) {
-            page = <Main user={this.props.user}
-                         userActions={this.props.userActions} />
-        } else {
-            page = <Home login={this.props.userActions.login} />
-        }
-
-        return (page);
+        return(
+          <div>
+            <Navigation user={this.props.user}
+                        userActions={this.props.userActions} 
+                        routeActions={this.props.routeActions} />
+          </div>
+        );
     }
 };
 
+App.propTypes = {
+  user: PropTypes.object.isRequired,
+  userActions: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired
+}
+
 function mapStateToProps (state) {
     return {
-        user: state.user
+        user: state.user,
+        router: state.router
     };
 };
 
 function mapDispatchToProps (dispatch) {
     return {
-        userActions: bindActionCreators(UserActions, dispatch)
+        userActions: bindActionCreators(UserActions, dispatch),
+        routeActions: bindActionCreators(RouteActions, dispatch)
     }
 };
 
@@ -49,5 +49,3 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(App);
-
-
