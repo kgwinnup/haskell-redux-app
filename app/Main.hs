@@ -40,14 +40,14 @@ verifyUser (U.Login userName _ _) =
 -- Get the username/password from POST request and set the cookies if valid
 login :: ActionM ()
 login = do
-  p <- jsonData :: ActionM U.Login
-  case verifyUser p of
+  user <- (jsonData :: ActionM U.Login) >>= return . verifyUser
+  case user of
     Just user -> do
       let cookie = def { setCookieName = E.encodeUtf8 "userId",
                          setCookieValue = E.encodeUtf8 ((pack . show) (U.userId user)) }
       setSignedCookie secret cookie
       json user
-    Nothing -> json G.Error { G.errorType = "0", G.errorMessage = "yep" }
+    Nothing -> json G.Error { G.errorType = "0", G.errorMessage = "invalid username or password" }
 
 --
 -- end stubbed out functions
