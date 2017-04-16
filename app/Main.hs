@@ -24,13 +24,15 @@ import qualified GeneralTypes as G
 
 secret = "secret"
 
+validUsers = ["user", "user1"]
+
 --
 -- These next two functions will need to be replaced with database calls
 -- they are stubbed out here as a template
 --
 verifyUser :: U.Login -> Maybe U.User
-verifyUser login =
-  if U.loginUserName login == "user"
+verifyUser (U.Login userName _ _) =
+  if elem userName validUsers
   then Just U.User { U.userId = 1, U.fullName = "User" }
   else Nothing
 
